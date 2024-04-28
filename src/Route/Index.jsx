@@ -4,7 +4,6 @@ import { defaultRoute, router } from './config'
 import Login from '../components/Auth/Index'
 
 export default function Index() {
-    console.log("route", router)
     return (
         <div>
             <BrowserRouter basename="/">
