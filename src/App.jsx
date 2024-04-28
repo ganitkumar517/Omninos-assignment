@@ -1,7 +1,8 @@
 import React from 'react'
+import Route from './Route/Index'
 
 export default function App() {
   return (
-    <div className='text-red-500'>App</div>
+    <div><Route /></div>
   )
 }
