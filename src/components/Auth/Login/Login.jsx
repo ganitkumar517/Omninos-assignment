@@ -9,13 +9,23 @@ export default function Login() {
     const [password, setPassword] = useState();
 
     const handleLogIn = () => {
-        logIn({ userId, password })
-            .unwrap().then((res) => {
-                toast.success('Login Successfully!')
-                navigate('/dashboard')
-                localStorage.setItem("token", res?.token)
-            })
-            .catch((res) => toast.error(res?.data?.message))
+        if (!userId) {
+            toast.error("userId is required")
+            return
+        }
+        else if (!password) {
+            toast.error("password is required")
+            return
+        }
+        else {
+            logIn({ userId, password })
+                .unwrap().then((res) => {
+                    toast.success('Login Successfully!')
+                    navigate('/dashboard')
+                    localStorage.setItem("token", res?.token)
+                })
+                .catch((res) => toast.error(res?.data?.message))
+        }
     }
     return (
         <div className='flex justify-center items-center h-screen'>
@@ -26,7 +36,7 @@ export default function Login() {
                 </div>
                 <div className='flex flex-col gap-1'>
                     <label className='font-semibold'>Password</label>
-                    <input type='password' className='rounded-lg p-2' placeholder='Enter your Password' value={password} onClick={() => setPassword(e.target.value)} />
+                    <input type='password' className='rounded-lg p-2' placeholder='Enter your Password' value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
                 <button className='bg-blue-500 p-2 rounded-xl hover:bg-blue-300' onClick={handleLogIn} disabled={isLoading}>{isLoading ? <>Loading</> : <>Login</>}</button>
                 <div onClick={() => navigate("/signup")} className='text-blue-500 cursor-pointer'>sign up</div>

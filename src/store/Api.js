@@ -12,7 +12,14 @@ export const fireApi = createApi({
       }),
       transformResponse: (res) => res.data,
     }),
+    register: builder.mutation({
+      query: (body) => ({
+        method: "post",
+        url: "/signup",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = fireApi;
+export const { useLoginMutation, useRegisterMutation } = fireApi;
