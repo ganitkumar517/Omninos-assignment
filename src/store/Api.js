@@ -2,12 +2,16 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const fireApi = createApi({
   reducerPath: "fireApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://pokeapi.co/api/v2/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/" }),
   endpoints: (builder) => ({
-    getPokemonByName: builder.query({
-      query: (name) => `pokemon/${name}`,
+    login: builder.mutation({
+      query: (body) => ({
+        method: "post",
+        url: "/login",
+        body,
+      }),
     }),
   }),
 });
 
-export const { useGetPokemonByNameQuery } = fireApi;
+export const { useLoginMutation } = fireApi;

@@ -11,4 +11,8 @@ export const router = [
     path: "/signup",
     component: lazy(() => import("../components/Auth/Register/Index.jsx")),
   },
+  {
+    path: "/dashboard",
+    component: lazy(() => import("../components/Auth/Dashboard/Index.jsx")),
+  },
 ];
