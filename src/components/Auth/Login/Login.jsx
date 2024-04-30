@@ -10,8 +10,12 @@ export default function Login() {
 
     const handleLogIn = () => {
         logIn({ userId, password })
-            .unwrap().then(() => toast.success('Login Successfully!'))
-            .catch(() => toast.error("login failed"))
+            .unwrap().then((res) => {
+                toast.success('Login Successfully!')
+                navigate('/dashboard')
+                localStorage.setItem("token", res?.token)
+            })
+            .catch((res) => toast.error(res?.data?.message))
     }
     return (
         <div className='flex justify-center items-center h-screen'>

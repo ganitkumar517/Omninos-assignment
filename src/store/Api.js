@@ -10,6 +10,7 @@ export const fireApi = createApi({
         url: "/login",
         body,
       }),
+      transformResponse: (res) => res.data,
     }),
   }),
 });
