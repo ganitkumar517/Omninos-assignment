@@ -1,9 +1,23 @@
-import React, { Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { defaultRoute, router } from './config'
+import React, { Suspense, useEffect } from 'react'
+import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom'
+import { defaultRoute, router, token } from './config'
 import Login from '../components/Auth/Login/Index'
 
 export default function Index() {
+
+    function Validate({ Route }) {
+        const navigate = useNavigate();
+        useEffect(() => {
+            if (token) {
+                navigate('/dashboard')
+            } else {
+                navigate('/login')
+            }
+        }, [])
+
+        return <Route />
+    }
+
     return (
         <div>
             <Suspense fallback={
@@ -27,7 +41,7 @@ export default function Index() {
                                 <Route
                                     key={route.path}
                                     path={route.path}
-                                    element={<route.component />}
+                                    element={<Validate Route={route.component} />}
                                 />
                                 <Route path='*' element={<div>page not found</div>} />
                             </>
