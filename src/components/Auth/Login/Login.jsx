@@ -10,7 +10,7 @@ export default function Login() {
 
     const handleLogIn = () => {
         logIn({ userId, password })
-            .then(() => toast.success('Login Successfully!'))
+            .unwrap().then(() => toast.success('Login Successfully!'))
             .catch(() => toast.error("login failed"))
     }
     return (
