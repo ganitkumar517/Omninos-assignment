@@ -81,12 +81,10 @@ app.post("/signup", async (req, res) => {
 });
 app.post("/todo", authenticateToken, async (req, res) => {
   const { todo } = req.body;
-  const userId = req.userId;
 
   try {
     const newTodo = new Todo({
       todo,
-      userId,
     });
     await newTodo.save();
 
