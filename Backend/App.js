@@ -161,6 +161,26 @@ app.delete("/todo/:id", authenticateToken, async (req, res) => {
       .json({ message: "Failed to delete todo", error: error.message });
   }
 });
+
+app.post("/decodeToken", (req, res) => {
+  const { token } = req.body;
+
+  if (!token) {
+    return res.status(400).json({ message: "Token not provided" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, "secret");
+
+    res.status(200).json({ decoded });
+  } catch (error) {
+    console.error("Error decoding token:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to decode token", error: error.message });
+  }
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
