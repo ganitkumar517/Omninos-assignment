@@ -1,7 +1,13 @@
 import React from 'react'
+import Route from './Route/Index'
+import './App.css'
+import { Toaster } from 'react-hot-toast';
 
 export default function App() {
   return (
-    <div className='text-red-500'>App</div>
+    <div>
+      <Toaster />
+      <Route />
+    </div>
   )
 }
