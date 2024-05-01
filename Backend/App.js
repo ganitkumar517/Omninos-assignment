@@ -4,11 +4,34 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const db = require("./database/db");
 const User = require("./model/User");
+const cors = require("cors");
+const Todo = require("./model/Todo");
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
+
 db();
 //login Api
+
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "Unauthorized - Token not provided" });
+  }
+
+  jwt.verify(token, "secret", (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: "Forbidden - Invalid token" });
+    }
+    req.userId = decoded.userId;
+    next();
+  });
+};
 
 app.post("/login", async (req, res) => {
   const { userId, password } = req.body;
@@ -54,6 +77,27 @@ app.post("/signup", async (req, res) => {
   } catch (error) {
     console.error("Signup error:", error);
     res.status(500).json({ message: "Signup Failed", error: error.message });
+  }
+});
+app.post("/todo", authenticateToken, async (req, res) => {
+  const { todo } = req.body;
+  const userId = req.userId;
+
+  try {
+    const newTodo = new Todo({
+      todo,
+      userId,
+    });
+    await newTodo.save();
+
+    res
+      .status(201)
+      .json({ message: "Todo created successfully", todo: newTodo });
+  } catch (error) {
+    console.error("Error creating todo:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to create todo", error: error.message });
   }
 });
 const PORT = process.env.PORT || 3000;
