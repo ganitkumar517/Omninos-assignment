@@ -2,6 +2,8 @@ import { lazy } from "react";
 
 export const defaultRoute = "/";
 export const token = localStorage.getItem("token");
+export const getAccessToken = () => localStorage.getItem("token");
+
 export const router = [
   {
     path: "/login",
