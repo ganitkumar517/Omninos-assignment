@@ -23,7 +23,7 @@ export default function Dashboard() {
     }
 
     return (
-        <div>
+        <div className='flex flex-col justify-between h-full w-full'>
             <div>
                 <Navbar />
                 <div className='flex justify-between mx-10'>
@@ -36,9 +36,7 @@ export default function Dashboard() {
                     </div>
                 </div>
             </div>
-            <div>
-                <TodoList todo={data?.todos} isLoading={loading} />
-            </div>
+            <TodoList todo={data?.todos} isLoading={loading} />
         </div>
     )
 }

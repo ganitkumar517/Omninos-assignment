@@ -8,12 +8,12 @@ export default function Index() {
     function Validate({ Route }) {
         const navigate = useNavigate();
         useEffect(() => {
-            if (token) {
+            if (localStorage.getItem('token')) {
                 navigate('/dashboard')
             } else {
                 navigate('/login')
             }
-        }, [])
+        }, [localStorage.getItem('token')])
 
         return <Route />
     }

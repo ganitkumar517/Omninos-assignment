@@ -57,6 +57,13 @@ export const fireApi = createApi({
       }),
       invalidatesTags: ["todo"],
     }),
+    decodeToken: builder.mutation({
+      query: (body) => ({
+        method: "post",
+        url: "/decodeToken",
+        body,
+      }),
+    }),
   }),
 });
 
@@ -67,4 +74,5 @@ export const {
   useGetTodoQuery,
   useEditTodoMutation,
   useDeleteTodoMutation,
+  useDecodeTokenMutation,
 } = fireApi;

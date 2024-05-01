@@ -31,7 +31,7 @@ export default function TodoList({ todo, isLoading }) {
     }
 
     return (
-        <div className='mt-6'>
+        <div className='mt-6 overflow-auto flex-1 min-h-0 flex flex-col'>
             {todo &&
                 todo.map((ele, index) => (
                     <div key={ele._id} className='flex justify-between mx-10 pl-12 mb-2 bg-slate-300 p-4 rounded-xl items-center'>
