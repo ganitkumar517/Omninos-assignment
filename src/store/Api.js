@@ -32,9 +32,39 @@ export const fireApi = createApi({
         url: "/todo",
         body,
       }),
+      invalidatesTags: ["todo"],
+    }),
+    getTodo: builder.query({
+      query: (params) => ({
+        method: "get",
+        url: "/todo",
+        params,
+      }),
+      providesTags: ["todo"],
+    }),
+    editTodo: builder.mutation({
+      query: (body) => ({
+        method: "PUT",
+        url: `/todo/${body.params}`,
+        body: body.body,
+      }),
+      invalidatesTags: ["todo"],
+    }),
+    deleteTodo: builder.mutation({
+      query: (params) => ({
+        method: "DELETE",
+        url: `/todo/${params}`,
+      }),
+      invalidatesTags: ["todo"],
     }),
   }),
 });
 
-export const { useLoginMutation, useRegisterMutation, useAddTodoMutation } =
-  fireApi;
+export const {
+  useLoginMutation,
+  useRegisterMutation,
+  useAddTodoMutation,
+  useGetTodoQuery,
+  useEditTodoMutation,
+  useDeleteTodoMutation,
+} = fireApi;
