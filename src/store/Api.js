@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const fireApi = createApi({
   reducerPath: "fireApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000/",
+    baseUrl: import.meta.env.VITE_BASE_URL,
     prepareHeaders: (headers) => {
       if (localStorage.getItem("token")) {
         headers.set("Authorization", `Bearer ${localStorage.getItem("token")}`);
