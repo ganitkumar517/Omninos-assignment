@@ -10,6 +10,7 @@ const Todo = require("./model/Todo");
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
+require("dotenv").config();
 
 db();
 //login Api
@@ -184,5 +185,5 @@ app.post("/decodeToken", (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log("server is running on port");
+  console.log(`server is running on port ${process.env.PORT}`);
 });
