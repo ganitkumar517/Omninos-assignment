@@ -35,7 +35,7 @@ export default function Index() {
             >
                 <BrowserRouter basename="/">
                     <Routes>
-                        <Route path={defaultRoute} element={<Login />} />
+                        <Route path={defaultRoute} element={<Validate Route={Login} />} />
                         {router.map((route) => (
                             <>
                                 <Route
