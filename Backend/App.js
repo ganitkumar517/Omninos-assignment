@@ -81,88 +81,6 @@ app.post("/signup", async (req, res) => {
     res.status(500).json({ message: "Signup Failed", error: error.message });
   }
 });
-// app.post("/todo", authenticateToken, async (req, res) => {
-//   const { todo } = req.body;
-
-//   try {
-//     const newTodo = new Todo({
-//       todo,
-//     });
-//     await newTodo.save();
-
-//     res
-//       .status(201)
-//       .json({ message: "Todo created successfully", todo: newTodo });
-//   } catch (error) {
-//     console.error("Error creating todo:", error);
-//     res
-//       .status(500)
-//       .json({ message: "Failed to create todo", error: error.message });
-//   }
-// });
-// app.get("/todo", authenticateToken, async (req, res) => {
-//   const { search } = req.query;
-//   let query = {};
-
-//   if (search) {
-//     query = { todo: { $regex: search, $options: "i" } };
-//   }
-
-//   try {
-//     const todos = await Todo.find(query);
-//     res.status(200).json({ todos });
-//   } catch (error) {
-//     console.error("Error fetching todos:", error);
-//     res
-//       .status(500)
-//       .json({ message: "Failed to fetch todos", error: error.message });
-//   }
-// });
-
-// app.put("/todo/:id", authenticateToken, async (req, res) => {
-//   const { id } = req.params;
-//   const { updatedTodo } = req.body;
-
-//   try {
-//     const todoToUpdate = await Todo.findById(id);
-//     if (!todoToUpdate) {
-//       return res.status(404).json({ message: "Todo not found" });
-//     }
-
-//     todoToUpdate.todo = updatedTodo;
-//     await todoToUpdate.save();
-
-//     res
-//       .status(200)
-//       .json({ message: "Todo updated successfully", todo: todoToUpdate });
-//   } catch (error) {
-//     console.error("Error updating todo:", error);
-//     res
-//       .status(500)
-//       .json({ message: "Failed to update todo", error: error.message });
-//   }
-// });
-// app.delete("/todo/:id", authenticateToken, async (req, res) => {
-//   const { id } = req.params;
-
-//   try {
-//     const todoToDelete = await Todo.findById(id);
-//     if (!todoToDelete) {
-//       return res.status(404).json({ message: "Todo not found" });
-//     }
-
-//     await Todo.findByIdAndDelete(id);
-//     res.status(200).json({
-//       message: "Todo deleted successfully",
-//       deletedTodo: todoToDelete,
-//     });
-//   } catch (error) {
-//     console.error("Error deleting todo:", error);
-//     res
-//       .status(500)
-//       .json({ message: "Failed to delete todo", error: error.message });
-//   }
-// });
 
 app.post("/decodeToken", (req, res) => {
   const { token } = req.body;
@@ -199,6 +117,7 @@ app.get("/products", authenticateToken, async (req, res) => {
         price: Math.floor(Math.random() * 100) + 1,
         image: `https://via.placeholder.com/150?text=Product+${i}`,
         cart: false,
+        book: false,
       };
 
       const existingProduct = await Product.findOne({
@@ -236,6 +155,41 @@ app.put("/products/:id/cart", authenticateToken, async (req, res) => {
     console.error("Error updating product cart status:", error);
     res.status(500).json({
       message: "Failed to update product cart status",
+      error: error.message,
+    });
+  }
+});
+app.put("/products/:id/cart/book", authenticateToken, async (req, res) => {
+  const productId = req.params.id;
+
+  try {
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    product.book = !product.book;
+    await product.save();
+
+    res.status(200).json({ message: "Product cart status updated", product });
+  } catch (error) {
+    console.error("Error updating product cart status:", error);
+    res.status(500).json({
+      message: "Failed to update product cart status",
+      error: error.message,
+    });
+  }
+});
+
+app.get("/cart/products", authenticateToken, async (req, res) => {
+  try {
+    const cartProducts = await Product.find({ cart: true });
+
+    res.status(200).json({ products: cartProducts });
+  } catch (error) {
+    console.error("Error fetching cart products:", error);
+    res.status(500).json({
+      message: "Failed to fetch cart products",
       error: error.message,
     });
   }

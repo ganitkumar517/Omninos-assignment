@@ -34,10 +34,25 @@ export const fireApi = createApi({
       }),
       providesTags: ["todo"],
     }),
+    getCart: builder.query({
+      query: (params) => ({
+        method: "get",
+        url: "/cart/products",
+        params,
+      }),
+      providesTags: ["todo"],
+    }),
     editCart: builder.mutation({
       query: (params) => ({
         method: "PUT",
         url: `/products/${params}/cart`,
+      }),
+      invalidatesTags: ["todo"],
+    }),
+    bookCart: builder.mutation({
+      query: (params) => ({
+        method: "PUT",
+        url: `/products/${params}/cart/book`,
       }),
       invalidatesTags: ["todo"],
     }),
@@ -57,4 +72,6 @@ export const {
   useGetProductQuery,
   useEditCartMutation,
   useDecodeTokenMutation,
+  useGetCartQuery,
+  useBookCartMutation,
 } = fireApi;

@@ -16,6 +16,7 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   cart: { type: Boolean, default: false },
+  book: { type: Boolean, default: false },
 });
 
 // Create and export the Product model
