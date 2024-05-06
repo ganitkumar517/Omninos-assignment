@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const db = require("./database/db");
 const User = require("./model/User");
 const cors = require("cors");
-const Todo = require("./model/Todo");
 const Product = require("./model/Product");
 
 const app = express();
