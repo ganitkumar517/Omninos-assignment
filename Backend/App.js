@@ -29,16 +29,16 @@ const authenticateToken = (req, res, next) => {
     if (err) {
       return res.status(403).json({ message: "Forbidden - Invalid token" });
     }
-    req.userId = decoded.userId;
+    req.name = decoded.name;
     next();
   });
 };
 
 app.post("/login", async (req, res) => {
-  const { userId, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ userId });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "user not found" });
     }
@@ -48,7 +48,7 @@ app.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ userId: user.userId }, "secret", {
+    const token = jwt.sign({ name: user.name, email: user.email }, "secret", {
       expiresIn: "1h",
     });
 
@@ -59,16 +59,16 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-  const { userId, password, email } = req.body;
+  const { name, password, email } = req.body;
 
   try {
-    const existingUser = await User.findOne({ userId });
+    const existingUser = await User.findOne({ name });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
 
     const newUser = new User({
-      userId: userId,
+      name: name,
       password: password,
       email: email,
     });
