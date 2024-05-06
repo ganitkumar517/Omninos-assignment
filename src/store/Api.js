@@ -26,34 +26,18 @@ export const fireApi = createApi({
         body,
       }),
     }),
-    addTodo: builder.mutation({
-      query: (body) => ({
-        method: "post",
-        url: "/todo",
-        body,
-      }),
-      invalidatesTags: ["todo"],
-    }),
-    getTodo: builder.query({
+    getProduct: builder.query({
       query: (params) => ({
         method: "get",
-        url: "/todo",
+        url: "/products",
         params,
       }),
       providesTags: ["todo"],
     }),
-    editTodo: builder.mutation({
-      query: (body) => ({
-        method: "PUT",
-        url: `/todo/${body.params}`,
-        body: body.body,
-      }),
-      invalidatesTags: ["todo"],
-    }),
-    deleteTodo: builder.mutation({
+    editCart: builder.mutation({
       query: (params) => ({
-        method: "DELETE",
-        url: `/todo/${params}`,
+        method: "PUT",
+        url: `/products/${params}/cart`,
       }),
       invalidatesTags: ["todo"],
     }),
@@ -70,9 +54,7 @@ export const fireApi = createApi({
 export const {
   useLoginMutation,
   useRegisterMutation,
-  useAddTodoMutation,
-  useGetTodoQuery,
-  useEditTodoMutation,
-  useDeleteTodoMutation,
+  useGetProductQuery,
+  useEditCartMutation,
   useDecodeTokenMutation,
 } = fireApi;
